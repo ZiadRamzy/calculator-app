@@ -53,7 +53,6 @@ This calculator leverages advanced parsing techniques to accurately evaluate mat
     ```bash
     git clone https://github.com/ZiadRamzy/calculator-app.git
     ```
-    (Replace `your-username` with your actual GitHub username)
 2.  **Navigate to the project directory:**
     ```bash
     cd calculator-app
