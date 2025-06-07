@@ -95,6 +95,58 @@ def shunting_yard(expression: str) -> List[str]:
 
     return list(output_queue)
 
+def evaluate_postfix(postfix_tokens: List[str]) -> Union[float, str]:
+    """
+    Evaluates a mathematical expression given in postfix (Reverse Polish) notation.
+    Returns the result of the calculation as a float or an error message as a string.
+    """
+    operand_stack: List[float] = []
+    operators = {'+', '-', '*', '/'} # Define supported operators
+
+    for token in postfix_tokens:
+        try:
+            # If the token is a number, push it onto the operand stack
+            operand_stack.append(float(token))
+        except ValueError:
+            # If the token is not a number, it must be an operator
+            if token in operators:
+                if len(operand_stack) < 2:
+                    return f"Error: Insufficient operands for operator '{token}'"
+                
+                # Pop the two most recent operands
+                operand2 = operand_stack.pop()
+                operand1 = operand_stack.pop()
+
+                # Perform the operation
+                if token == '+':
+                    result = operand1 + operand2
+                elif token == '-':
+                    result = operand1 - operand2
+                elif token == '*':
+                    result = operand1 * operand2
+                elif token == '/':
+                    if operand2 == 0:
+                        return "Division by zero error"
+                    result = operand1 / operand2
+                else:
+                    # This case should ideally not be hit if shunting_yard filters well,
+                    # but good to have for robustness.
+                    return f"Error: Unknown operator '{token}' in postfix expression"
+                
+                # Push the result back onto the stack
+                operand_stack.append(result)
+            else:
+                # This should ideally not happen if shunting_yard produces valid tokens,
+                # but catches unexpected tokens that aren't numbers or operators.
+                return f"Error: Unexpected token '{token}' in postfix expression"
+
+    if len(operand_stack) != 1:
+        # If the stack doesn't contain exactly one value at the end, it means
+        # the expression was malformed (e.g., too many operands or missing operators).
+        return "Error: Malformed postfix expression"
+    
+    return operand_stack[0]
+
 # Test cases for shunting_yard
 print(f"Infix: 1 + 1 * 5 -> Postfix: {shunting_yard('1 + 1 * 5')}")
 print(f"Infix: (1 + 1) * 5 -> Postfix: {shunting_yard('(1 + 1) * 5')}")
