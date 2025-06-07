@@ -161,16 +161,23 @@ def calculate(expression: str) -> Union[float, str]:
 
     return evaluate_postfix(postfix_tokens)
 
-# Test cases for shunting_yard
-print(f"Infix: 1 + 1 * 5 -> Postfix: {shunting_yard('1 + 1 * 5')}")
-print(f"Infix: (1 + 1) * 5 -> Postfix: {shunting_yard('(1 + 1) * 5')}")
-print(f"Infix: (1 * 2) - (3 * 4) -> Postfix: {shunting_yard('(1 * 2) - (3 * 4)')}")
-print(f"Infix: 1 * 2 -> Postfix: {shunting_yard('1 * 2')}")
-print(f"Infix: 10 / (6 - 1) -> Postfix: {shunting_yard('10 / (6 - 1)')}")
-print(f"Infix: 2.5 + 3.0 -> Postfix: {shunting_yard('2.5 + 3.0')}")
-print(f"Infix: -5 + 2 -> Postfix: {shunting_yard('-5 + 2')}")
-print(f"Infix: (5 +) -> Postfix: {shunting_yard('(5 +)')}")
-print(f"Infix: 5 + ) -> Postfix: {shunting_yard('5 + )')}")
-print(f"Infix: (5 + 2 -> Postfix: {shunting_yard('(5 + 2')}") # Another unmatched opening parenthesis case
-print(f"Infix: 3 ^ 4 -> Postfix: {shunting_yard('3 ^ 4')}") # Unsupported operator
-print(f"Infix: 1 $ 2 -> Postfix: {shunting_yard('1 $ 2')}") # Invalid character
+# Test cases for Step 2
+print("\n--- Testing with integrated calculate function ---")
+print(f"Expression: '1 + 1 * 5' = {calculate('1 + 1 * 5')}")         # Expected: 6.0
+print(f"Expression: '(1 + 1) * 5' = {calculate('(1 + 1) * 5')}")     # Expected: 10.0
+print(f"Expression: '(1 * 2) - (3 * 4)' = {calculate('(1 * 2) - (3 * 4)')}") # Expected: -10.0
+print(f"Expression: '1 * 2' = {calculate('1 * 2')}")                 # Expected: 2.0
+print(f"Expression: '10 / (6 - 1)' = {calculate('10 / (6 - 1)')}")   # Expected: 2.0
+print(f"Expression: '2.5 + 3.0' = {calculate('2.5 + 3.0')}")         # Expected: 5.5
+print(f"Expression: '-5 + 2' = {calculate('-5 + 2')}")               # Expected: -3.0
+
+# Error cases
+print(f"Expression: '5 / 0' = {calculate('5 / 0')}")
+print(f"Expression: '(5 +)' = {calculate('(5 +)')}") # Should show "Error: Insufficient operands..." or similar
+print(f"Expression: '5 + )' = {calculate('5 + )')}")
+print(f"Expression: '(5 + 2' = {calculate('(5 + 2')}")
+print(f"Expression: '3 ^ 4' = {calculate('3 ^ 4')}")
+print(f"Expression: '1 $ 2' = {calculate('1 $ 2')}")
+print(f"Expression: '1 2 +' = {calculate('1 2 +')}") # Test for malformed postfix input from shunting yard
+print(f"Expression: '1 +' = {calculate('1 +')}") # Example that produces ['1', '+'] from shunting_yard
+print(f"Expression: '1 2' = {calculate('1 2')}") # Too many operands without operator
