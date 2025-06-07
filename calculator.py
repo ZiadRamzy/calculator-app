@@ -2,7 +2,7 @@ import math
 from typing import List, Deque, Union
 from collections import deque
 
-# --- shunting_yard function (copy your current, fully updated shunting_yard here) ---
+# --- shunting_yard function ---
 def shunting_yard(expression: str) -> List[str]:
     """
     Converts an infix mathematical expression to postfix notation (Reverse Polish Notation)
@@ -101,7 +101,7 @@ def shunting_yard(expression: str) -> List[str]:
     return list(output_queue)
 
 
-# --- evaluate_postfix function (copy your current, fully updated evaluate_postfix here) ---
+# --- evaluate_postfix function ---
 def evaluate_postfix(postfix_tokens: List[str]) -> Union[float, str]:
     """
     Evaluates a mathematical expression given in postfix (Reverse Polish) notation.
@@ -153,7 +153,6 @@ def evaluate_postfix(postfix_tokens: List[str]) -> Union[float, str]:
 
     return operand_stack[0]
 
-# --- Main calculate function (unchanged, it orchestrates) ---
 def calculate(expression: str) -> Union[float, str]:
     """
     Evaluates a mathematical expression by first converting it from infix to postfix
@@ -167,7 +166,7 @@ def calculate(expression: str) -> Union[float, str]:
     return evaluate_postfix(postfix_tokens)
 
 
-# --- New Interactive Loop for the Calculator ---
+# --- Interactive Loop for the Calculator ---
 if __name__ == '__main__':
     print("Welcome to the Interactive Calculator!")
     print("Enter 'exit' to quit.")
@@ -180,21 +179,13 @@ if __name__ == '__main__':
             if user_input.lower() == 'exit':
                 print("Exiting calculator. Goodbye!")
                 break
-            if not user_input.strip(): # Handle empty input
+            if not user_input.strip(): #  empty input
                 continue
 
             result = calculate(user_input)
             print(f"Result: {result}")
-        except EOFError: # Handles Ctrl+D or Ctrl+Z (on Windows)
+        except EOFError: #  Ctrl+D or Ctrl+Z (on Windows)
             print("\nExiting calculator. Goodbye!")
             break
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
-
-    # The previous test cases (print statements) can be removed or commented out
-    # from the main part of calculator.py if you intend to only use the interactive mode
-    # or rely solely on test_calculator.py for automated testing.
-    # For example:
-    # print("\n--- Testing with Step 3 extensions (functions) ---")
-    # print(f"Expression: 'sin(90)' = {calculate('sin(90)')}")
-    # ... and so on ...
