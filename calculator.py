@@ -147,6 +147,20 @@ def evaluate_postfix(postfix_tokens: List[str]) -> Union[float, str]:
     
     return operand_stack[0]
 
+# --- Integration of shunting_yard and evaluate_postfix ---
+def calculate(expression: str) -> Union[float, str]:
+    """
+    Evaluates a mathematical expression by first converting it from infix to postfix
+    and then evaluating the postfix expression.
+    """
+    postfix_tokens = shunting_yard(expression)
+
+    # Check if shunting_yard returned an error
+    if postfix_tokens and postfix_tokens[0].startswith("Error:"):
+        return postfix_tokens[0] # Return the error message directly
+
+    return evaluate_postfix(postfix_tokens)
+
 # Test cases for shunting_yard
 print(f"Infix: 1 + 1 * 5 -> Postfix: {shunting_yard('1 + 1 * 5')}")
 print(f"Infix: (1 + 1) * 5 -> Postfix: {shunting_yard('(1 + 1) * 5')}")
